@@ -1,6 +1,7 @@
 package cn.imaq.serialterminal
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.usb.UsbManager
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -25,6 +26,7 @@ class ConnectionActivity : AppCompatActivity() {
 
     fun onOpenButtonClicked(v: View) {
         with (Driver.driver!!) {
+            CloseDevice()
             if (UsbFeatureSupported() && ResumeUsbList() == 0 && UartInit()) {
                 val baudRate = (spinnerBaudrate.selectedItem as String).toInt()
                 val dataBits = (spinnerDataBits.selectedItem as String).toByte()
@@ -32,7 +34,7 @@ class ConnectionActivity : AppCompatActivity() {
                 val parity = spinnerParity.selectedItemPosition.toByte()
                 val flowControl = spinnerFlowControl.selectedItemPosition.toByte()
                 if (SetConfig(baudRate, dataBits, stopBits, parity, flowControl)) {
-                    Snackbar.make(v, "Open port succeeded", Snackbar.LENGTH_LONG).show()
+                    startActivity(Intent(this@ConnectionActivity, TerminalActivity::class.java))
                 } else {
                     Snackbar.make(v, "Set config failed", Snackbar.LENGTH_LONG).show()
                 }

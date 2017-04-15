@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:text="Baud rate"
+                android:text="@string/baud_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -35,10 +35,11 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp">
 
             <TextView
-                android:text="Data bits"
+                android:text="@string/data_bits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -51,10 +52,11 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp">
 
             <TextView
-                android:text="Stop bits"
+                android:text="@string/stop_bits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -67,10 +69,11 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp">
 
             <TextView
-                android:text="Parity"
+                android:text="@string/parity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -83,10 +86,11 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp">
 
             <TextView
-                android:text="Flow control"
+                android:text="@string/flow_control"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -102,7 +106,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Open Serial Port"
+        android:layout_marginTop="16dp"
+        android:text="@string/open_serial_port"
         android:onClick="onOpenButtonClicked"/>
 
 </LinearLayout>

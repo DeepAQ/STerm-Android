@@ -1,4 +1,10 @@
 <resources>
-    <string name="app_name">SerialTerminal</string>
+    <string name="app_name">STerm</string>
     <string name="action_settings">Settings</string>
+    <string name="baud_rate">Baud rate</string>
+    <string name="data_bits">Data bits</string>
+    <string name="stop_bits">Stop bits</string>
+    <string name="parity">Parity</string>
+    <string name="flow_control">Flow control</string>
+    <string name="open_serial_port">Open Serial Port</string>
 </resources>
