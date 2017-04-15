@@ -26,11 +26,20 @@ class ConnectionActivity : AppCompatActivity() {
     fun onOpenButtonClicked(v: View) {
         with (Driver.driver!!) {
             if (UsbFeatureSupported() && ResumeUsbList() == 0 && UartInit()) {
-                Snackbar.make(v, "Open port succeeded!", Snackbar.LENGTH_LONG).show()
+                val baudRate = (spinnerBaudrate.selectedItem as String).toInt()
+                val dataBits = (spinnerDataBits.selectedItem as String).toByte()
+                val stopBits = spinnerStopBits.selectedItemPosition.toByte()
+                val parity = spinnerParity.selectedItemPosition.toByte()
+                val flowControl = spinnerFlowControl.selectedItemPosition.toByte()
+                if (SetConfig(baudRate, dataBits, stopBits, parity, flowControl)) {
+                    Snackbar.make(v, "Open port succeeded", Snackbar.LENGTH_LONG).show()
+                } else {
+                    Snackbar.make(v, "Set config failed", Snackbar.LENGTH_LONG).show()
+                }
                 return
             }
         }
-        Snackbar.make(v, "Open port failed!", Snackbar.LENGTH_LONG).show()
+        Snackbar.make(v, "Open port failed", Snackbar.LENGTH_LONG).show()
     }
 
 }
