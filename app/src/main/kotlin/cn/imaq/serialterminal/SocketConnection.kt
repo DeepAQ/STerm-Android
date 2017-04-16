@@ -53,4 +53,8 @@ class SocketConnection(port: Int) : Connection() {
         }
     }
 
+    override fun close() {
+        csocket?.close()
+        ssocket?.close()
+    }
 }

@@ -32,4 +32,9 @@ class TerminalActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        connection?.close()
+    }
+
 }

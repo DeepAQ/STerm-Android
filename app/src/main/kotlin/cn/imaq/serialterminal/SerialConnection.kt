@@ -27,4 +27,7 @@ class SerialConnection : Connection() {
         driver?.WriteData(bytes, length)
     }
 
+    override fun close() {
+        driver?.CloseDevice()
+    }
 }

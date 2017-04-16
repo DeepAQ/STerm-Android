@@ -18,4 +18,6 @@ abstract class Connection {
 
     abstract fun send(bytes: ByteArray, length: Int)
 
+    abstract fun close()
+
 }
