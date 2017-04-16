@@ -1,8 +1,11 @@
 package cn.imaq.serialterminal
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import kotlinx.android.synthetic.main.activity_terminal.*
@@ -44,6 +47,18 @@ class TerminalActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         connection?.close()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_terminal, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_scripts -> startActivity(Intent(this, ScriptsActivity::class.java))
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     fun onSendClicked(v: View) {

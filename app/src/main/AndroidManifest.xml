@@ -3,6 +3,7 @@
           package="cn.imaq.serialterminal">
 
     <uses-feature android:name="android.hardware.usb.host"/>
+
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -31,6 +32,11 @@
         <activity
             android:name=".TerminalActivity"
             android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ScriptsActivity"
+            android:label="@string/title_activity_scripts"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
