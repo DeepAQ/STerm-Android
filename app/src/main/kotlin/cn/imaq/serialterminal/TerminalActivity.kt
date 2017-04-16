@@ -20,7 +20,11 @@ class TerminalActivity : AppCompatActivity() {
         if (connection != null) {
             connection!!.startReceive { bytes, len ->
                 runOnUiThread {
+                    val textHeight = editTerm.lineHeight * editTerm.lineCount
                     editTerm.append(String(bytes, 0, len))
+                    if (editTerm.scrollY >= textHeight - editTerm.height - editTerm.lineHeight * 3) {
+                        editTerm.scrollTo(0, textHeight)
+                    }
                 }
             }
         } else {

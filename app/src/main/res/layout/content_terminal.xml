@@ -18,7 +18,7 @@
         android:layout_weight="1"
         android:inputType="textMultiLine"
         android:gravity="bottom"
-        android:textSize="12sp"
+        android:textSize="11sp"
         android:typeface="monospace"
         android:textColor="@android:color/white"
         android:background="@android:color/background_dark"/>
