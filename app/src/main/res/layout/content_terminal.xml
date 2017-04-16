@@ -35,14 +35,14 @@
             android:layout_weight="1"
             android:inputType="textNoSuggestions"
             android:imeOptions="actionSend"
-            android:hint="@string/command_hint"/>
+            android:hint="@string/hint_command"/>
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:srcCompat="@android:drawable/ic_menu_send"
             android:onClick="onSendClicked"
-            android:contentDescription="@string/send_button"/>
+            android:contentDescription="@string/button_send"/>
 
     </LinearLayout>
 

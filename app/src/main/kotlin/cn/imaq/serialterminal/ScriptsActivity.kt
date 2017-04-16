@@ -1,5 +1,6 @@
 package cn.imaq.serialterminal
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -75,7 +76,7 @@ class ScriptsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> finish()
-            R.id.action_cloud -> TODO("Cloud scripts")
+            R.id.action_cloud -> startActivity(Intent(this, CloudActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }

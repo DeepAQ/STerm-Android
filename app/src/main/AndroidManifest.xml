@@ -39,6 +39,11 @@
             android:label="@string/title_activity_scripts"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".CloudActivity"
+            android:label="@string/title_activity_cloud"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

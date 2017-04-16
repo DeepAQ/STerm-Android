@@ -5,11 +5,13 @@
     <string name="stop_bits">Stop bits</string>
     <string name="parity">Parity</string>
     <string name="flow_control">Flow control</string>
-    <string name="open_serial_port">Open Serial Port</string>
-    <string name="open_socket_stub">Open Socket Stub</string>
-    <string name="command_hint">Command</string>
-    <string name="send_button">Send</string>
+    <string name="button_serial_port">Open Serial Port</string>
+    <string name="button_socket_stub">Open Socket Stub</string>
+    <string name="hint_command">Command</string>
+    <string name="button_send">Send</string>
     <string name="menu_scripts">Scripts</string>
     <string name="title_activity_scripts">My scripts</string>
     <string name="menu_cloud">Cloud Scripts</string>
+    <string name="button_download">Download</string>
+    <string name="title_activity_cloud">Cloud scripts</string>
 </resources>
