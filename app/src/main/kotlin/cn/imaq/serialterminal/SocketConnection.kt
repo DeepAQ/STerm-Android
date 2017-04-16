@@ -18,7 +18,7 @@ class SocketConnection(port: Int) : Connection() {
         ssocket = ServerSocket(port)
     }
 
-    override val readThread = Thread {
+    override val readRunnable = Runnable {
         while (ssocket != null && !ssocket!!.isClosed) {
             try {
                 val cs = ssocket!!.accept()

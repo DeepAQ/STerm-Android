@@ -12,7 +12,7 @@ class SerialConnection : Connection() {
         var driver: CH34xUARTDriver? = null
     }
 
-    override val readThread = Thread {
+    override val readRunnable = Runnable {
         val buf = ByteArray(1024)
         while (driver != null && driver!!.isConnected) {
             val len = driver!!.ReadData(buf, buf.size)

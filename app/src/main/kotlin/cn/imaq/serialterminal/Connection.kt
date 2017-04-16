@@ -7,12 +7,15 @@ abstract class Connection {
 
     var receiver: ((ByteArray, Int) -> Unit)? = null
 
-    abstract val readThread: Thread
+    abstract val readRunnable: Runnable
+
+    private var readThread: Thread? = null
 
     fun startReceive(receiver: (ByteArray, Int) -> Unit) {
         this.receiver = receiver
-        if (!readThread.isAlive) {
-            readThread.start()
+        if (readThread == null || !readThread!!.isAlive) {
+            readThread = Thread(readRunnable)
+            readThread!!.start()
         }
     }
 
