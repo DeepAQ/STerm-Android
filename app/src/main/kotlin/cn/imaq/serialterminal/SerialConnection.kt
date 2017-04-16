@@ -1,6 +1,7 @@
 package cn.imaq.serialterminal
 
 import cn.wch.ch34xuartdriver.CH34xUARTDriver
+import java.io.IOException
 
 /**
  * Created by adn55 on 2017/4/16.
@@ -24,10 +25,13 @@ class SerialConnection : Connection() {
     }
 
     override fun send(bytes: ByteArray, length: Int) {
-        driver?.WriteData(bytes, length)
+        if (driver!!.WriteData(bytes, length) <= 0) {
+            throw IOException()
+        }
     }
 
     override fun close() {
         driver?.CloseDevice()
     }
+
 }

@@ -47,9 +47,9 @@ class SocketConnection(port: Int) : Connection() {
     }
 
     override fun send(bytes: ByteArray, length: Int) {
-        csocket?.getOutputStream()?.let {
-            it.write(bytes, 0, length)
-            it.flush()
+        with(csocket!!.getOutputStream()) {
+            write(bytes, 0, length)
+            flush()
         }
     }
 
