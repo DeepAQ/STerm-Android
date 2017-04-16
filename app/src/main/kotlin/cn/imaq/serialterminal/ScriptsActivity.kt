@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -22,6 +24,7 @@ class ScriptsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scripts)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         fab.setOnClickListener { v ->
             TODO("add custom script")
@@ -42,7 +45,7 @@ class ScriptsActivity : AppCompatActivity() {
 
                 override fun onBindViewHolder(holder: ViewHolder, position: Int) {
                     scriptDir.listFiles()[position].let {
-                        holder.title.text = it.name
+                        holder.title.text = it.nameWithoutExtension
                         holder.subTitle.text = dateFormat.format(Date(it.lastModified()))
                     }
                 }
@@ -62,6 +65,19 @@ class ScriptsActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_scripts, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> finish()
+            R.id.action_cloud -> TODO("Cloud scripts")
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
