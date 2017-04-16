@@ -18,9 +18,31 @@
         android:layout_weight="1"
         android:inputType="textMultiLine"
         android:gravity="bottom"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:typeface="monospace"
         android:textColor="@android:color/white"
         android:background="@android:color/background_dark"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editCommand"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:inputType="textNoSuggestions"
+            android:hint="@string/command_hint"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_menu_send"
+            android:onClick="onSendClicked"
+            android:contentDescription="@string/send_button"/>
+
+    </LinearLayout>
 
 </LinearLayout>

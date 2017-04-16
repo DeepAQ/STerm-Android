@@ -2,6 +2,7 @@ package cn.imaq.serialterminal
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import kotlinx.android.synthetic.main.activity_terminal.*
 import kotlinx.android.synthetic.main.content_terminal.*
 
@@ -35,6 +36,10 @@ class TerminalActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         connection?.close()
+    }
+
+    fun onSendClicked(v: View) {
+        TODO()
     }
 
 }

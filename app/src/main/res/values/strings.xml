@@ -8,4 +8,6 @@
     <string name="flow_control">Flow control</string>
     <string name="open_serial_port">Open Serial Port</string>
     <string name="open_socket_stub">Open Socket Stub</string>
+    <string name="command_hint">Command</string>
+    <string name="send_button">Send</string>
 </resources>
