@@ -20,24 +20,28 @@ class SocketConnection(port: Int) : Connection() {
 
     override val readThread = Thread {
         while (ssocket != null && !ssocket!!.isClosed) {
-            while (true) {
+            try {
                 val cs = ssocket!!.accept()
                 csocket?.close() // close old connection
                 csocket = cs
                 Thread {
                     val ins = cs.getInputStream()
-                    val buf = ByteArray(1024)
                     while (!csocket!!.isClosed) {
-                        val len = ins.read(buf, 0, buf.size)
-                        if (len > 0) {
-                            receiver?.invoke(buf, len)
-                        } else {
-                            break
+                        try {
+                            val buf = ByteArray(1024)
+                            val len = ins.read(buf)
+                            if (len > 0) {
+                                receiver?.invoke(buf, len)
+                            } else {
+                                break
+                            }
+                        } catch (e: Exception) {
                         }
                     }
                     ins.close()
                     cs.close()
                 }.start()
+            } catch (e: Exception) {
             }
         }
     }

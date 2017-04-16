@@ -104,10 +104,19 @@
     </TableLayout>
 
     <Button
+        android:id="@+id/buttonOpenSerial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/open_serial_port"
-        android:onClick="onOpenButtonClicked"/>
+        android:onClick="onOpenClicked"/>
+
+    <Button
+        android:id="@+id/buttonOpenSocket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/open_socket_stub"
+        android:onClick="onOpenClicked"/>
 
 </LinearLayout>

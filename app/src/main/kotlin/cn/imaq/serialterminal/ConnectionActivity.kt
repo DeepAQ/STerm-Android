@@ -17,31 +17,42 @@ class ConnectionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_connection)
         spinnerBaudrate.setSelection(5) // 9600
         spinnerDataBits.setSelection(3) // 8
-
-        Driver.driver = CH34xUARTDriver(
-                getSystemService(Context.USB_SERVICE) as UsbManager,
-                this, "${BuildConfig.APPLICATION_ID}.USB_PERMISSION"
-        )
     }
 
-    fun onOpenButtonClicked(v: View) {
-        with (Driver.driver!!) {
-            CloseDevice()
-            if (UsbFeatureSupported() && ResumeUsbList() == 0 && UartInit()) {
-                val baudRate = (spinnerBaudrate.selectedItem as String).toInt()
-                val dataBits = (spinnerDataBits.selectedItem as String).toByte()
-                val stopBits = spinnerStopBits.selectedItemPosition.toByte()
-                val parity = spinnerParity.selectedItemPosition.toByte()
-                val flowControl = spinnerFlowControl.selectedItemPosition.toByte()
-                if (SetConfig(baudRate, dataBits, stopBits, parity, flowControl)) {
-                    startActivity(Intent(this@ConnectionActivity, TerminalActivity::class.java))
-                } else {
-                    Snackbar.make(v, "Set config failed", Snackbar.LENGTH_LONG).show()
+    fun onOpenClicked(v: View) {
+        var conn: Connection? = null
+        when (v) {
+            buttonOpenSerial -> {
+                if (SerialConnection.driver == null) {
+                    SerialConnection.driver = CH34xUARTDriver(
+                            getSystemService(Context.USB_SERVICE) as UsbManager,
+                            this, "${BuildConfig.APPLICATION_ID}.USB_PERMISSION"
+                    )
                 }
-                return
+                with(SerialConnection.driver!!) {
+                    CloseDevice()
+                    if (UsbFeatureSupported() && ResumeUsbList() == 0 && UartInit()) {
+                        val baudRate = (spinnerBaudrate.selectedItem as String).toInt()
+                        val dataBits = (spinnerDataBits.selectedItem as String).toByte()
+                        val stopBits = spinnerStopBits.selectedItemPosition.toByte()
+                        val parity = spinnerParity.selectedItemPosition.toByte()
+                        val flowControl = spinnerFlowControl.selectedItemPosition.toByte()
+                        if (SetConfig(baudRate, dataBits, stopBits, parity, flowControl)) {
+                            conn = SerialConnection()
+                        } else {
+                            Snackbar.make(v, "Set serial config failed", Snackbar.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            }
+            buttonOpenSocket -> {
+                conn = SocketConnection(12345)
             }
         }
-        Snackbar.make(v, "Open port failed", Snackbar.LENGTH_LONG).show()
+        if (conn != null) {
+            TerminalActivity.connection = conn
+            startActivity(Intent(this, TerminalActivity::class.java))
+        }
     }
 
 }
