@@ -49,6 +49,11 @@ class TerminalActivity : AppCompatActivity() {
         connection?.close()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (scriptFragment as ScriptFragment).setScript("test", "Line 1\nLine 2\nLine 3")
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_terminal, menu)
         return true
