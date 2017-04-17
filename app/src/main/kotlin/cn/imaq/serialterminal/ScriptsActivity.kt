@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_scripts.*
 import java.io.File
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,26 +31,25 @@ class ScriptsActivity : AppCompatActivity() {
         }
 
         val scriptDir = getDir("scripts", MODE_PRIVATE)
-        with (FileOutputStream(File(scriptDir, "test.sh"))) {
-            write("test".toByteArray())
-            flush()
-            close()
-        }
 
         with(recyclerView) {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = object : RecyclerView.Adapter<ViewHolder>() {
                 private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                private var filesList: Array<File> = emptyArray()
 
                 override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-                    scriptDir.listFiles()[position].let {
+                    filesList[position].let {
                         holder.title.text = it.nameWithoutExtension
                         holder.subTitle.text = dateFormat.format(Date(it.lastModified()))
                     }
                 }
 
-                override fun getItemCount(): Int = scriptDir.listFiles().size
+                override fun getItemCount(): Int {
+                    filesList = scriptDir.listFiles()
+                    return filesList.size
+                }
 
                 override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
                     layoutInflater.inflate(android.R.layout.simple_expandable_list_item_2, parent, false).let {
@@ -66,6 +64,11 @@ class ScriptsActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        recyclerView.adapter.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
