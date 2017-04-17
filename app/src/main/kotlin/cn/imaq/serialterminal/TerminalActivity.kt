@@ -27,7 +27,7 @@ class TerminalActivity : AppCompatActivity() {
         setContentView(R.layout.activity_terminal)
         setSupportActionBar(toolbar)
         editTerm.keyListener = null
-        editCommand.setOnEditorActionListener { v, actionId, event ->
+        editCommand.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 onSendClicked(v)
             }

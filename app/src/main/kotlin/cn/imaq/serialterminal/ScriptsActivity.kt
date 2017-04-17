@@ -28,8 +28,8 @@ class ScriptsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        fab.setOnClickListener { v ->
-            TODO("add custom script")
+        fab.setOnClickListener {
+            // TODO add custom script
         }
 
         val scriptDir = getDir("scripts", MODE_PRIVATE)
