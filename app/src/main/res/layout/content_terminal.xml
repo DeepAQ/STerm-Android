@@ -46,4 +46,10 @@
 
     </LinearLayout>
 
+    <fragment
+        android:id="@+id/scriptFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="cn.imaq.serialterminal.ScriptFragment"/>
+
 </LinearLayout>
