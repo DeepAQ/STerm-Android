@@ -1,5 +1,6 @@
 package cn.imaq.serialterminal
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -10,9 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.android.extension.responseJson
 import kotlinx.android.synthetic.main.activity_cloud.*
+import org.json.JSONArray
 
 class CloudActivity : AppCompatActivity() {
+
+    private val cloudBase = "https://wx.imaq.cn/sterm/"
+    private var scriptList = JSONArray()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,18 +27,22 @@ class CloudActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val list = listOf("test1", "test2", "test3", "test4")
-
         with(recyclerView) {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = object : RecyclerView.Adapter<ViewHolder>() {
                 override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-                    holder.title.text = list[position]
-                    holder.subtitle.text = "[TODO]"
+                    val obj = scriptList.getJSONObject(position)
+                    with(holder) {
+                        title.text = obj.getString("name")
+                        subtitle.text = obj.getString("desc")
+                        button.setOnClickListener {
+                            println(title.text)
+                        }
+                    }
                 }
 
-                override fun getItemCount(): Int = list.size
+                override fun getItemCount(): Int = scriptList.length()
 
                 override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
                     layoutInflater.inflate(R.layout.button_list_item, parent, false).let {
@@ -40,6 +51,8 @@ class CloudActivity : AppCompatActivity() {
                 }
             }
         }
+
+        updateList()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -47,6 +60,15 @@ class CloudActivity : AppCompatActivity() {
             android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun updateList() {
+        val p = ProgressDialog.show(this, "Please wait", "Fetching script list from cloud ...")
+        Fuel.get("$cloudBase/script_list.aq").responseJson { request, response, result ->
+            scriptList = result.get().array()
+            recyclerView.adapter.notifyDataSetChanged()
+            p.dismiss()
+        }
     }
 
     private class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
