@@ -93,8 +93,10 @@ class ScriptsActivity : AppCompatActivity() {
                         val buf = ByteArray(available())
                         read(buf)
                         close()
-                        println(String(buf))
+                        TerminalActivity.scriptTitle = filesList[selectedIndex].nameWithoutExtension
+                        TerminalActivity.scriptContent = String(buf)
                     }
+                    finish()
                 }
                 R.id.action_delete -> {
                     filesList[selectedIndex].delete()

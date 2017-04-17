@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_script.*
 class ScriptFragment : Fragment() {
 
     private var scriptLines: List<String> = emptyList()
+    private var sendHandler: ((String) -> Unit)? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_script, container, false)
@@ -29,6 +30,9 @@ class ScriptFragment : Fragment() {
             adapter = object : RecyclerView.Adapter<ViewHolder>() {
                 override fun onBindViewHolder(holder: ViewHolder, position: Int) {
                     holder.line.text = scriptLines[position]
+                    holder.button.setOnClickListener {
+                        sendHandler?.invoke(scriptLines[position])
+                    }
                 }
 
                 override fun getItemCount(): Int = scriptLines.size
@@ -46,6 +50,16 @@ class ScriptFragment : Fragment() {
         scriptName.text = name
         scriptLines = content.split("\n")
         recyclerView.adapter.notifyDataSetChanged()
+    }
+
+    fun setOnClose(handler: () -> Unit) {
+        buttonClose.setOnClickListener {
+            handler.invoke()
+        }
+    }
+
+    fun setOnSend(handler: (String) -> Unit) {
+        sendHandler = handler
     }
 
     private class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {

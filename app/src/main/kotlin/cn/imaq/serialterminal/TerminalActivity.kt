@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_terminal.*
 import kotlinx.android.synthetic.main.content_terminal.*
 
@@ -15,7 +16,11 @@ class TerminalActivity : AppCompatActivity() {
 
     companion object {
         var connection: Connection? = null
+        var scriptTitle = ""
+        var scriptContent = ""
     }
+
+    var sFragment: ScriptFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +32,16 @@ class TerminalActivity : AppCompatActivity() {
                 onSendClicked(v)
             }
             true
+        }
+
+        sFragment = scriptFragment as ScriptFragment
+        sFragment?.setOnClose {
+            scriptTitle = ""
+            onResume()
+        }
+        sFragment?.setOnSend { s ->
+            editCommand.setText(s, TextView.BufferType.EDITABLE)
+            onSendClicked(editCommand)
         }
 
         if (connection != null) {
@@ -51,7 +66,12 @@ class TerminalActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        (scriptFragment as ScriptFragment).setScript("test", "Line 1\nLine 2\nLine 3")
+        if (scriptTitle.isNotBlank()) {
+            sFragment?.setScript(scriptTitle, scriptContent)
+            supportFragmentManager.beginTransaction().show(sFragment).commit()
+        } else {
+            supportFragmentManager.beginTransaction().hide(sFragment).commit()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
