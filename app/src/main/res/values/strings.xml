@@ -14,4 +14,6 @@
     <string name="menu_cloud">Cloud Scripts</string>
     <string name="button_download">Download</string>
     <string name="title_activity_cloud">Cloud scripts</string>
+    <string name="menu_load_script">Load</string>
+    <string name="menu_delete_script">Delete</string>
 </resources>

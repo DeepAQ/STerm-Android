@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_load"
+        android:title="@string/menu_load_script"/>
+
+    <item
+        android:id="@+id/action_delete"
+        android:title="@string/menu_delete_script"/>
+</menu>

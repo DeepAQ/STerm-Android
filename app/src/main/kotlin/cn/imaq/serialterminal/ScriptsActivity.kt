@@ -2,6 +2,7 @@ package cn.imaq.serialterminal
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import java.util.*
 
 class ScriptsActivity : AppCompatActivity() {
 
+    private var filesList: Array<File> = emptyArray()
     private var selectedIndex = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +39,6 @@ class ScriptsActivity : AppCompatActivity() {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = object : RecyclerView.Adapter<ViewHolder>() {
                 private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                private var filesList: Array<File> = emptyArray()
 
                 override fun onBindViewHolder(holder: ViewHolder, position: Int) {
                     filesList[position].let {
@@ -55,9 +56,9 @@ class ScriptsActivity : AppCompatActivity() {
                     layoutInflater.inflate(android.R.layout.simple_expandable_list_item_2, parent, false).let {
                         it.background = theme.obtainStyledAttributes(intArrayOf(android.R.attr.selectableItemBackground)).getDrawable(0)
                         it.setOnClickListener { v -> v.showContextMenu() }
-                        it.setOnCreateContextMenuListener { menu, view, info ->
+                        it.setOnCreateContextMenuListener { menu, view, _ ->
                             selectedIndex = getChildAdapterPosition(view)
-                            //menuInflater.inflate(R.menu.menu_bookmark, menu)
+                            menuInflater.inflate(R.menu.menu_script_item, menu)
                         }
                         return ViewHolder(it)
                     }
@@ -82,6 +83,28 @@ class ScriptsActivity : AppCompatActivity() {
             R.id.action_cloud -> startActivity(Intent(this, CloudActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+        if (selectedIndex >= 0) {
+            when (item?.itemId) {
+                R.id.action_load -> {
+                    with(filesList[selectedIndex].inputStream()) {
+                        val buf = ByteArray(available())
+                        read(buf)
+                        close()
+                        println(String(buf))
+                    }
+                }
+                R.id.action_delete -> {
+                    filesList[selectedIndex].delete()
+                    recyclerView.adapter.notifyDataSetChanged()
+                    Snackbar.make(recyclerView, "Deleted", Snackbar.LENGTH_LONG).show()
+                }
+            }
+        }
+        selectedIndex = -1
+        return super.onContextItemSelected(item)
     }
 
     private class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
