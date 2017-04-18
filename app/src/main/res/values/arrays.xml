@@ -39,5 +39,6 @@
     <string-array name="flowControl">
         <item>None</item>
         <item>CTS / RTS</item>
+        <item>DSR / DTR</item>
     </string-array>
 </resources>

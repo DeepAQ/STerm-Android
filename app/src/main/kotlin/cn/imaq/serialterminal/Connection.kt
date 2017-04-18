@@ -5,7 +5,7 @@ package cn.imaq.serialterminal
  */
 abstract class Connection {
 
-    var receiver: ((ByteArray, Int) -> Unit)? = null
+    protected var receiver: ((ByteArray, Int) -> Unit)? = null
 
     abstract val readRunnable: Runnable
 
@@ -19,7 +19,7 @@ abstract class Connection {
         }
     }
 
-    abstract fun send(bytes: ByteArray, length: Int)
+    abstract fun send(bytes: ByteArray)
 
     abstract fun close()
 

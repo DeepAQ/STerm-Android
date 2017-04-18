@@ -89,8 +89,8 @@ class TerminalActivity : AppCompatActivity() {
     fun onSendClicked(v: View) {
         val command = editCommand.text.trim()
         try {
-            val bytes = "$command\r\n".toByteArray()
-            connection!!.send(bytes, bytes.size)
+            val bytes = "$command\r".toByteArray()
+            connection!!.send(bytes)
             editCommand.text.clear()
         } catch (e: Exception) {
             Snackbar.make(v, "Send command failed: ${e.javaClass.simpleName}", Snackbar.LENGTH_LONG).show()

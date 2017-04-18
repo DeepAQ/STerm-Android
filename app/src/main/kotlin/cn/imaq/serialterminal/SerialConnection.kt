@@ -1,7 +1,6 @@
 package cn.imaq.serialterminal
 
-import cn.wch.ch34xuartdriver.CH34xUARTDriver
-import java.io.IOException
+import com.felhr.usbserial.CH34xSerialDevice
 
 /**
  * Created by adn55 on 2017/4/16.
@@ -9,29 +8,21 @@ import java.io.IOException
 class SerialConnection : Connection() {
 
     companion object {
-        var driver: CH34xUARTDriver? = null
+        var device: CH34xSerialDevice? = null
     }
 
     override val readRunnable = Runnable {
-        val buf = ByteArray(1024)
-        while (driver != null && driver!!.isConnected) {
-            val len = driver!!.ReadData(buf, buf.size)
-            if (len > 0) {
-                receiver?.invoke(buf, len)
-            } else {
-                break
-            }
+        device?.read { buf ->
+            receiver?.invoke(buf, buf.size)
         }
     }
 
-    override fun send(bytes: ByteArray, length: Int) {
-        if (driver!!.WriteData(bytes, length) <= 0) {
-            throw IOException()
-        }
+    override fun send(bytes: ByteArray) {
+        device!!.write(bytes)
     }
 
     override fun close() {
-        driver?.CloseDevice()
+        device?.close()
     }
 
 }

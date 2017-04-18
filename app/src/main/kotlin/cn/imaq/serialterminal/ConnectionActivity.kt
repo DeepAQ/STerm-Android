@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import cn.wch.ch34xuartdriver.CH34xUARTDriver
+import com.felhr.usbserial.CH34xSerialDevice
 import kotlinx.android.synthetic.main.activity_connection.*
 
 class ConnectionActivity : AppCompatActivity() {
@@ -23,24 +23,26 @@ class ConnectionActivity : AppCompatActivity() {
         var conn: Connection? = null
         when (v) {
             buttonOpenSerial -> {
-                if (SerialConnection.driver == null) {
-                    SerialConnection.driver = CH34xUARTDriver(
-                            getSystemService(Context.USB_SERVICE) as UsbManager,
-                            this, "${BuildConfig.APPLICATION_ID}.USB_PERMISSION"
-                    )
-                }
-                with(SerialConnection.driver!!) {
-                    CloseDevice()
-                    if (UsbFeatureSupported() && ResumeUsbList() == 0 && UartInit()) {
-                        val baudRate = (spinnerBaudrate.selectedItem as String).toInt()
-                        val dataBits = (spinnerDataBits.selectedItem as String).toByte()
-                        val stopBits = spinnerStopBits.selectedItemPosition.toByte()
-                        val parity = spinnerParity.selectedItemPosition.toByte()
-                        val flowControl = spinnerFlowControl.selectedItemPosition.toByte()
-                        if (SetConfig(baudRate, dataBits, stopBits, parity, flowControl)) {
+                val usbManager = getSystemService(Context.USB_SERVICE) as UsbManager
+                for (entry in usbManager.deviceList.entries) {
+                    val device = entry.value
+                    if (device.vendorId == 6790) {
+                        SerialConnection.device = CH34xSerialDevice(device, usbManager.openDevice(device), 0)
+                        if (SerialConnection.device!!.open()) {
+                            val baudRate = (spinnerBaudrate.selectedItem as String).toInt()
+                            // val dataBits = (spinnerDataBits.selectedItem as String).toInt()
+                            // val stopBits = (spinnerStopBits.selectedItem as String).toInt()
+                            val parity = spinnerParity.selectedItemPosition
+                            val flowControl = spinnerFlowControl.selectedItemPosition
+                            with(SerialConnection.device!!) {
+                                setBaudRate(baudRate)
+                                // setDataBits(dataBits)
+                                // setStopBits(stopBits)
+                                setParity(parity)
+                                setFlowControl(flowControl)
+                            }
                             conn = SerialConnection()
-                        } else {
-                            Snackbar.make(v, "Set serial config failed", Snackbar.LENGTH_LONG).show()
+                            break
                         }
                     }
                 }
@@ -52,6 +54,8 @@ class ConnectionActivity : AppCompatActivity() {
         if (conn != null) {
             TerminalActivity.connection = conn
             startActivity(Intent(this, TerminalActivity::class.java))
+        } else {
+            Snackbar.make(v, "Open failed, no supported device found", Snackbar.LENGTH_LONG).show()
         }
     }
 
