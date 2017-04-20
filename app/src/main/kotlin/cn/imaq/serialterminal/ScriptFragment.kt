@@ -52,6 +52,12 @@ class ScriptFragment : Fragment() {
         recyclerView.adapter.notifyDataSetChanged()
     }
 
+    fun setOnSendAll(handler: (List<String>) -> Unit) {
+        buttonSendAll.setOnClickListener {
+            handler.invoke(scriptLines)
+        }
+    }
+
     fun setOnClose(handler: () -> Unit) {
         buttonClose.setOnClickListener {
             handler.invoke()

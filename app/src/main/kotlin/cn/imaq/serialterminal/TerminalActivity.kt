@@ -43,6 +43,12 @@ class TerminalActivity : AppCompatActivity() {
             editCommand.setText(s, TextView.BufferType.EDITABLE)
             onSendClicked(editCommand)
         }
+        sFragment?.setOnSendAll { lines ->
+            for (s in lines) {
+                editCommand.setText(s, TextView.BufferType.EDITABLE)
+                onSendClicked(editCommand)
+            }
+        }
 
         if (connection != null) {
             connection!!.startReceive { bytes, len ->

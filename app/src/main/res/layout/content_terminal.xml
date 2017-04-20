@@ -50,7 +50,7 @@
         android:id="@+id/scriptFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.6"
         android:name="cn.imaq.serialterminal.ScriptFragment"/>
 
 </LinearLayout>
