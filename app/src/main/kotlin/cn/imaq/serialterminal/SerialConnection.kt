@@ -1,6 +1,6 @@
 package cn.imaq.serialterminal
 
-import com.felhr.usbserial.CH34xSerialDevice
+import com.felhr.usbserial.UsbSerialDevice
 
 /**
  * Created by adn55 on 2017/4/16.
@@ -8,7 +8,7 @@ import com.felhr.usbserial.CH34xSerialDevice
 class SerialConnection : Connection() {
 
     companion object {
-        var device: CH34xSerialDevice? = null
+        var device: UsbSerialDevice? = null
     }
 
     override val readRunnable = Runnable {

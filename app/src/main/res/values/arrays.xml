@@ -40,5 +40,6 @@
         <item>None</item>
         <item>CTS / RTS</item>
         <item>DSR / DTR</item>
+        <item>Xon / Xoff</item>
     </string-array>
 </resources>

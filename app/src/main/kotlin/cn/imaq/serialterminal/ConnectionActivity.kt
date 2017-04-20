@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.felhr.usbserial.CH34xSerialDevice
+import com.felhr.usbserial.UsbSerialDevice
 import kotlinx.android.synthetic.main.activity_connection.*
 
 class ConnectionActivity : AppCompatActivity() {
@@ -24,26 +24,24 @@ class ConnectionActivity : AppCompatActivity() {
         when (v) {
             buttonOpenSerial -> {
                 val usbManager = getSystemService(Context.USB_SERVICE) as UsbManager
-                for (entry in usbManager.deviceList.entries) {
-                    val device = entry.value
-                    if (device.vendorId == 6790) {
-                        SerialConnection.device = CH34xSerialDevice(device, usbManager.openDevice(device), 0)
-                        if (SerialConnection.device!!.open()) {
-                            val baudRate = (spinnerBaudrate.selectedItem as String).toInt()
-                            // val dataBits = (spinnerDataBits.selectedItem as String).toInt()
-                            // val stopBits = (spinnerStopBits.selectedItem as String).toInt()
-                            val parity = spinnerParity.selectedItemPosition
-                            val flowControl = spinnerFlowControl.selectedItemPosition
-                            with(SerialConnection.device!!) {
-                                setBaudRate(baudRate)
-                                // setDataBits(dataBits)
-                                // setStopBits(stopBits)
-                                setParity(parity)
-                                setFlowControl(flowControl)
-                            }
-                            conn = SerialConnection()
-                            break
+                for (device in usbManager.deviceList.values) {
+                    val serialDevice = UsbSerialDevice.createUsbSerialDevice(device, usbManager.openDevice(device))
+                    if (serialDevice != null && serialDevice.open()) {
+                        val baudRate = (spinnerBaudrate.selectedItem as String).toInt()
+                        val dataBits = (spinnerDataBits.selectedItem as String).toInt()
+                        val stopBits = (spinnerStopBits.selectedItem as String).toInt()
+                        val parity = spinnerParity.selectedItemPosition
+                        val flowControl = spinnerFlowControl.selectedItemPosition
+                        with(serialDevice) {
+                            setBaudRate(baudRate)
+                            setDataBits(dataBits)
+                            setStopBits(stopBits)
+                            setParity(parity)
+                            setFlowControl(flowControl)
                         }
+                        SerialConnection.device = serialDevice
+                        conn = SerialConnection()
+                        break
                     }
                 }
             }

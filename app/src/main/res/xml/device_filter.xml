@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resource>
-    <usb-device
-        product-id="29987"
-        vendor-id="6790"/>
-    <usb-device
-        product-id="21795"
-        vendor-id="6790"/>
+    <!-- CH34x -->
+    <usb-device vendor-id="17224" product-id="21795"/>
+    <usb-device vendor-id="6790" product-id="29987"/>
+    <usb-device vendor-id="6790" product-id="21795"/>
+    <usb-device vendor-id="6790" product-id="1093"/>
 </resource>
