@@ -16,4 +16,8 @@
     <string name="title_activity_cloud">Cloud scripts</string>
     <string name="menu_load_script">Load</string>
     <string name="menu_delete_script">Delete</string>
+    <string name="ctrl_space">Spacebar</string>
+    <string name="ctrl_c">Ctrl-C</string>
+    <string name="ctrl_z">Ctrl-Z</string>
+    <string name="ctrl_escape">EscapeSeq</string>
 </resources>

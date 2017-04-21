@@ -5,5 +5,25 @@
     <item
         android:id="@+id/action_scripts"
         android:title="@string/menu_scripts"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_ctrl_space"
+        android:title="@string/ctrl_space"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_ctrl_c"
+        android:title="@string/ctrl_c"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_ctrl_z"
+        android:title="@string/ctrl_z"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_ctrl_escape"
+        android:title="@string/ctrl_escape"
+        app:showAsAction="never"/>
 </menu>

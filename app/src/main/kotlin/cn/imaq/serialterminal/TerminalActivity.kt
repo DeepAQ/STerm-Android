@@ -40,12 +40,12 @@ class TerminalActivity : AppCompatActivity() {
             onResume()
         }
         sFragment?.setOnSend { s ->
-            editCommand.setText(s, TextView.BufferType.EDITABLE)
+            editCommand.setText(s.trim(), TextView.BufferType.EDITABLE)
             onSendClicked(editCommand)
         }
         sFragment?.setOnSendAll { lines ->
             for (s in lines) {
-                editCommand.setText(s, TextView.BufferType.EDITABLE)
+                editCommand.setText(s.trim(), TextView.BufferType.EDITABLE)
                 onSendClicked(editCommand)
             }
         }
@@ -96,18 +96,27 @@ class TerminalActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_scripts -> startActivity(Intent(this, ScriptsActivity::class.java))
+            R.id.action_ctrl_space -> send(" ")
+            R.id.action_ctrl_c -> send("\u0003")
+            R.id.action_ctrl_z -> send("\u001a")
+            R.id.action_ctrl_escape -> send("\u001e")
         }
         return super.onOptionsItemSelected(item)
     }
 
     fun onSendClicked(v: View) {
-        val command = editCommand.text.trim()
-        try {
-            val bytes = "$command\r".toByteArray()
-            connection!!.send(bytes)
+        if (send("${editCommand.text}\r")) {
             editCommand.text.clear()
+        }
+    }
+
+    private fun send(command: String): Boolean {
+        try {
+            connection!!.send(command.toByteArray())
+            return true
         } catch (e: Exception) {
-            Snackbar.make(v, "Send command failed: ${e.javaClass.simpleName}", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(editCommand, "Send command failed: ${e.javaClass.simpleName}", Snackbar.LENGTH_LONG).show()
+            return false
         }
     }
 
