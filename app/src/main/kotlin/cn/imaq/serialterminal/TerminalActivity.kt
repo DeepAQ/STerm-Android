@@ -54,7 +54,15 @@ class TerminalActivity : AppCompatActivity() {
             connection!!.startReceive { bytes, len ->
                 runOnUiThread {
                     val textHeight = editTerm.lineHeight * editTerm.lineCount
-                    editTerm.append(String(bytes, 0, len))
+                    val termStr = StringBuilder(editTerm.text)
+                    (0 until len)
+                            .map { bytes[it].toChar() }
+                            .forEach {
+                                when (it) {
+                                    '\b' -> termStr.deleteCharAt(termStr.lastIndex)
+                                    else -> termStr.append(it)
+                                }
+                            }
                     if (editTerm.scrollY >= textHeight - editTerm.height - editTerm.lineHeight * 3) {
                         editTerm.scrollTo(0, textHeight)
                     }
