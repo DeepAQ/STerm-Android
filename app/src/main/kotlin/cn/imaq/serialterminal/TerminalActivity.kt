@@ -59,10 +59,19 @@ class TerminalActivity : AppCompatActivity() {
                             .map { bytes[it].toChar() }
                             .forEach {
                                 when (it) {
-                                    '\b' -> termStr.deleteCharAt(termStr.lastIndex)
+                                    '\b' -> {
+                                        if (termStr.lastIndex >= 0) {
+                                            termStr.deleteCharAt(termStr.lastIndex)
+                                        }
+                                    }
                                     else -> termStr.append(it)
                                 }
                             }
+                    if (termStr.length > 20480) {
+                        termStr.delete(0, 20480 - termStr.length)
+                    }
+                    editTerm.text.clear()
+                    editTerm.append(termStr)
                     if (editTerm.scrollY >= textHeight - editTerm.height - editTerm.lineHeight * 3) {
                         editTerm.scrollTo(0, textHeight)
                     }
